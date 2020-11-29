@@ -3,6 +3,8 @@ from datetime import datetime, timedelta, date
 import os
 import pymongo
 from dotenv import load_dotenv
+import socket
+import socks
 
 #Load env variables
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -22,6 +24,8 @@ MONGO_COLLECTION_PRODUCTION = os.getenv("MONGO_COLLECTION_PRODUCTION")
 baseURL = "https://www.edp-distribuicao.com/dados-energia/endpoint"
 
 def getJSON( jsonURL ):
+    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050)
+    socket.socket = socks.socksocket
     req = urllib.request.Request(
         baseURL + jsonURL, 
         data=None, 
