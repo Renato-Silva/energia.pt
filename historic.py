@@ -22,7 +22,14 @@ MONGO_COLLECTION_PRODUCTION = os.getenv("MONGO_COLLECTION_PRODUCTION")
 baseURL = "https://www.edp-distribuicao.com/dados-energia/endpoint"
 
 def getJSON( jsonURL ):
-    with urllib.request.urlopen( baseURL + jsonURL ) as url:
+    req = urllib.request.Request(
+        baseURL + jsonURL, 
+        data=None, 
+        headers={
+            'User-Agent': '"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"'
+        }
+    )
+    with urllib.request.urlopen( req ) as url:
         return json.loads(url.read().decode())
 
 def daterange(start_date, end_date):
